@@ -135,7 +135,6 @@ const Home: React.FC = () => {
             muted
             loop
             playsInline
-            poster="/images/_DSC9960.jpg"
             className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none brightness-75 contrast-125"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-brand-black transform-gpu" />

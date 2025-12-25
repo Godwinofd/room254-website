@@ -6,8 +6,8 @@ import { Menu, X, Instagram, Facebook, Twitter } from 'lucide-react';
 import Logo from './components/Logo';
 import CookieConsent from './components/CookieConsent';
 import LoadingSpinner from './components/LoadingSpinner';
+import Home from './pages/Home';
 
-const Home = lazy(() => import('./pages/Home'));
 const Events = lazy(() => import('./pages/Events'));
 const About = lazy(() => import('./pages/About'));
 const Locations = lazy(() => import('./pages/Locations'));
