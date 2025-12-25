@@ -29,12 +29,10 @@ const Navbar: React.FC = () => {
         setScrolled(isScrolled);
       }
     };
-    // Passive listener improves scroll performance by not blocking the main thread
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [scrolled]);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -43,7 +41,6 @@ const Navbar: React.FC = () => {
     }
   }, [isOpen]);
 
-  // Close menu on route change
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
@@ -58,8 +55,8 @@ const Navbar: React.FC = () => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b will-change-transform ${scrolled
-        ? 'bg-black/80 backdrop-blur-md py-4 border-white/10'
-        : 'bg-transparent py-6 border-transparent'
+          ? 'bg-black/80 backdrop-blur-md py-4 border-white/10'
+          : 'bg-transparent py-6 border-transparent'
         }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
@@ -112,73 +109,73 @@ const Navbar: React.FC = () => {
           </button>
         )}
 
-        {/* Mobile Menu Overlay */}
+        {/* Mobile Menu Overlay - Full Screen Takeover */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ y: "-100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "-100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="fixed inset-0 bg-black z-[90] flex flex-col items-center justify-start pt-32 pb-12 md:hidden overflow-y-auto"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black z-[200] flex flex-col md:hidden overflow-hidden"
             >
-              {/* Background Accents */}
-              <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
-              <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 blur-[150px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+              {/* Top Header Section with X Button */}
+              <div className="flex justify-between items-center p-6 border-b border-white/5">
+                <Logo className="h-10 w-auto text-amber-500" />
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="text-white focus:outline-none w-10 h-10 flex items-center justify-center rounded-full bg-white/10 border border-white/20"
+                  aria-label="Close Menu"
+                >
+                  <X size={24} className="text-amber-500" />
+                </button>
+              </div>
 
-              <div className="flex flex-col gap-6 text-center w-full px-12 z-10">
-                <div className="mb-4">
-                  <Logo className="h-16 w-auto mx-auto text-amber-500" />
-                  <div className="h-px w-24 bg-gradient-to-r from-transparent via-amber-500/50 to-transparent mx-auto mt-4" />
-                </div>
-
+              {/* Centered Navigation Links */}
+              <div className="flex-grow flex flex-col items-center justify-center gap-10 px-6">
                 {[{ name: 'Home', path: '/' }, ...navLinks].map((item, index) => (
                   <motion.div
                     key={item.name}
-                    initial={{ opacity: 0, y: -20 }}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ delay: index * 0.05 + 0.1, duration: 0.4 }}
+                    transition={{ delay: index * 0.1 }}
                   >
                     <Link
                       to={item.path}
-                      className={`relative group inline-block text-3xl font-display font-bold uppercase transition-colors tracking-tighter ${location.pathname === item.path ? 'text-amber-500' : 'text-white'
+                      onClick={() => setIsOpen(false)}
+                      className={`text-6xl font-display font-bold uppercase transition-colors tracking-tighter ${location.pathname === item.path ? 'text-amber-500' : 'text-white active:text-amber-500'
                         }`}
                     >
                       {item.name}
-                      {location.pathname === item.path && (
-                        <motion.div
-                          layoutId="mobile-indicator"
-                          className="absolute -left-6 top-1/2 -translate-y-1/2 w-2 h-2 bg-amber-500 rounded-full"
-                        />
-                      )}
                     </Link>
                   </motion.div>
                 ))}
 
                 <motion.div
-                  initial={{ opacity: 0, y: -20 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ delay: 0.4, duration: 0.4 }}
-                  className="mt-8"
+                  transition={{ delay: (navLinks.length + 1) * 0.1 }}
+                  className="mt-10"
                 >
                   <Link
                     to="/events"
-                    className="block px-10 py-5 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold uppercase tracking-[0.2em] text-xs shadow-2xl shadow-orange-500/20 active:scale-95 transition-transform"
+                    onClick={() => setIsOpen(false)}
+                    className="px-12 py-5 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold uppercase tracking-[0.2em] text-sm shadow-2xl shadow-orange-500/20 active:scale-95 transition-transform"
                   >
-                    Explore Events
+                    Get Tickets
                   </Link>
                 </motion.div>
-
-                <div className="mt-12 flex justify-center gap-8 opacity-50 pb-8">
-                  {[Instagram, Facebook, Twitter].map((Icon, i) => (
-                    <a key={i} href="#" className="text-white hover:text-amber-500 transition-colors">
-                      <Icon size={20} />
-                    </a>
-                  ))}
-                </div>
               </div>
+
+              {/* Footer Accents */}
+              <div className="p-12 flex justify-center gap-12 opacity-30">
+                {[Instagram, Facebook, Twitter].map((Icon, i) => (
+                  <Icon key={i} size={24} className="text-white" />
+                ))}
+              </div>
+
+              {/* Background Accent Gradient */}
+              <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-amber-500/10 to-transparent pointer-events-none" />
             </motion.div>
           )}
         </AnimatePresence>
@@ -190,15 +187,10 @@ const Navbar: React.FC = () => {
 const Footer: React.FC = () => {
   return (
     <footer className="bg-black text-white pt-16 pb-12 px-6 border-t border-gray-900 relative overflow-hidden">
-      {/* Decorative Background Element - GPU Accelerated */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-amber-500/5 blur-[100px] rounded-full pointer-events-none transform-gpu" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-
-
-        {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-16">
-          {/* Brand Column */}
           <div className="md:col-span-4 flex flex-col items-start">
             <Logo className="h-24 w-auto mb-6 text-white" />
             <p className="text-gray-500 leading-relaxed mb-6 max-w-sm">
@@ -206,7 +198,6 @@ const Footer: React.FC = () => {
             </p>
           </div>
 
-          {/* Sitemaps */}
           <div className="md:col-span-2 md:col-start-6">
             <h4 className="text-sm font-bold uppercase tracking-widest text-amber-500 mb-6">Explore</h4>
             <ul className="space-y-4">
@@ -238,7 +229,6 @@ const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Socials & Contact */}
           <div className="md:col-span-3">
             <h4 className="text-sm font-bold uppercase tracking-widest text-amber-500 mb-6">Connect</h4>
             <p className="text-gray-400 mb-2">hello@room254.events</p>
@@ -254,13 +244,11 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-900 text-xs text-gray-600 uppercase tracking-widest">
           <p>&copy; {new Date().getFullYear()} ROOM 254 EVENTS LTD.</p>
           <p className="mt-2 md:mt-0">DESIGNED FOR THE CULTURE.</p>
         </div>
 
-        {/* Big Watermark */}
         <div className="absolute -bottom-24 -right-10 pointer-events-none opacity-5 select-none overflow-hidden">
           <span className="text-[12rem] md:text-[20rem] font-display font-bold leading-none text-white whitespace-nowrap transform-gpu">
             254
