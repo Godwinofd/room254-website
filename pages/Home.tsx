@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Music, Users, MapPin, ArrowUpRight, Mail } from 'lucide-react';
+import OptimizedImage from '../components/OptimizedImage';
 import ThreeDTiltCard from '../components/ThreeDTiltCard';
 import { Link } from 'react-router-dom';
 import Logo from '../components/Logo';
@@ -36,7 +37,7 @@ const ExpertiseCard: React.FC<{ item: ExpertiseItem; index: number }> = ({ item,
             style={{ y }}
             className="absolute inset-0 h-[120%] -top-[10%] w-full will-change-transform"
           >
-            <img
+            <OptimizedImage
               src={item.image}
               alt={`${item.title} - Room 254 Services`}
               className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-transform duration-700"
@@ -134,6 +135,7 @@ const Home: React.FC = () => {
             muted
             loop
             playsInline
+            poster="/images/_DSC9960.jpg"
             className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none brightness-75 contrast-125"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-brand-black transform-gpu" />
@@ -249,7 +251,7 @@ const Home: React.FC = () => {
               className="absolute top-0 right-0 w-3/4 h-3/4 z-0 grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100 opacity-60"
               whileHover={{ scale: 1.02 }}
             >
-              <img
+              <OptimizedImage
                 src="/images/_DSC9905.jpg"
                 alt="Room 254 Authentic Crowd"
                 className="w-full h-full object-cover rounded-sm"
@@ -259,7 +261,7 @@ const Home: React.FC = () => {
             {/* Accent Layer - The Trio (The "Face") */}
             <ThreeDTiltCard intensity={15} className="absolute top-20 left-10 w-2/3 h-[400px] z-10 transition-all duration-700 ease-in-out group-hover:opacity-10 group-hover:blur-sm">
               <div className="w-full h-full border-4 border-black shadow-2xl overflow-hidden relative group">
-                <img
+                <OptimizedImage
                   src="/images/_DSC0367.jpg"
                   alt="Live Event Energy"
                   className="w-full h-full object-cover"
@@ -273,7 +275,7 @@ const Home: React.FC = () => {
           <div className="block md:hidden relative h-[400px]">
             <ThreeDTiltCard intensity={10} className="w-full h-full">
               <div className="w-full h-full rounded-sm overflow-hidden relative border border-white/10">
-                <img
+                <OptimizedImage
                   src="/images/_DSC9928.jpg"
                   alt="Live Event Energy"
                   className="w-full h-full object-cover"

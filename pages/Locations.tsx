@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Lock, Signal, ArrowRight, Crosshair } from 'lucide-react';
+import OptimizedImage from '../components/OptimizedImage';
 import ThreeDTiltCard from '../components/ThreeDTiltCard';
 import SEO from '../components/SEO';
 
@@ -56,10 +57,11 @@ const Locations: React.FC = () => {
             >
               <ThreeDTiltCard intensity={10} className="w-full">
                 <div className="relative h-[600px] w-full rounded-sm border-2 border-amber-500/50 overflow-hidden group">
-                  <img
+                  <OptimizedImage
                     src="/images/_DSC9935.jpg"
                     alt="Oxford HQ"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                    priority={true}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90" />
 

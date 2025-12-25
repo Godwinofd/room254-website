@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import OptimizedImage from '../components/OptimizedImage';
 import ThreeDTiltCard from '../components/ThreeDTiltCard';
 import { Music, Speaker, Users, Globe, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -61,10 +62,11 @@ const About: React.FC = () => {
       <section className="relative h-[60vh] md:h-[80vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-brand-black z-10" />
-          <img
+          <OptimizedImage
             src="/images/_DSC9960.jpg"
             alt="Room 254 Vibe"
             className="w-full h-full object-cover opacity-50"
+            priority={true}
           />
         </div>
 
@@ -108,7 +110,7 @@ const About: React.FC = () => {
 
           <ThreeDTiltCard intensity={10} className="w-full h-[400px] md:h-[600px]">
             <div className="relative w-full h-full rounded-sm overflow-hidden border border-white/10 shadow-2xl group">
-              <img src="/images/_DSC9950.jpg" alt="The DJ" className="w-full h-full object-cover" />
+              <OptimizedImage src="/images/_DSC9950.jpg" alt="The DJ" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-amber-500/10 mix-blend-overlay group-hover:bg-transparent transition-all duration-500" />
               <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black to-transparent">
                 <p className="text-white font-display font-bold text-2xl uppercase tracking-widest">For The Culture</p>
@@ -174,7 +176,7 @@ const About: React.FC = () => {
             {/* Group Image Feature */}
             <ThreeDTiltCard intensity={15} className="w-full h-[500px] md:h-[700px]">
               <div className="relative w-full h-full rounded-sm overflow-hidden border-4 border-white/5 shadow-2xl group">
-                <img
+                <OptimizedImage
                   src="/images/_DSC9928.jpg"
                   alt="The Room 254 Team"
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"

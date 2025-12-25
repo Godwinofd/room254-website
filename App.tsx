@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X, Instagram, Facebook, Twitter } from 'lucide-react';
 
-import Home from './pages/Home';
-import Events from './pages/Events';
-import About from './pages/About';
-import Locations from './pages/Locations';
-import Contact from './pages/Contact';
 import Logo from './components/Logo';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import TermsOfService from './pages/TermsOfService';
-import CookiePolicy from './pages/CookiePolicy';
-import Accessibility from './pages/Accessibility';
 import CookieConsent from './components/CookieConsent';
+import LoadingSpinner from './components/LoadingSpinner';
+
+const Home = lazy(() => import('./pages/Home'));
+const Events = lazy(() => import('./pages/Events'));
+const About = lazy(() => import('./pages/About'));
+const Locations = lazy(() => import('./pages/Locations'));
+const Contact = lazy(() => import('./pages/Contact'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./pages/TermsOfService'));
+const CookiePolicy = lazy(() => import('./pages/CookiePolicy'));
+const Accessibility = lazy(() => import('./pages/Accessibility'));
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -270,17 +272,19 @@ const App: React.FC = () => {
         <Navbar />
         <main className="flex-grow">
           <AnimatePresence mode="wait">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/events" element={<Events />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/locations" element={<Locations />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/terms-of-service" element={<TermsOfService />} />
-              <Route path="/cookie-policy" element={<CookiePolicy />} />
-              <Route path="/accessibility" element={<Accessibility />} />
-            </Routes>
+            <Suspense fallback={<LoadingSpinner />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/events" element={<Events />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/locations" element={<Locations />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-of-service" element={<TermsOfService />} />
+                <Route path="/cookie-policy" element={<CookiePolicy />} />
+                <Route path="/accessibility" element={<Accessibility />} />
+              </Routes>
+            </Suspense>
           </AnimatePresence>
         </main>
         <Footer />

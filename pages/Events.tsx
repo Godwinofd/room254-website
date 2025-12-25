@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import OptimizedImage from '../components/OptimizedImage';
 import ThreeDTiltCard from '../components/ThreeDTiltCard';
 import { ArrowRight, Lock, Mail, Instagram, Clock, MapPin } from 'lucide-react';
 import SEO from '../components/SEO';
@@ -149,7 +150,7 @@ const Events: React.FC = () => {
               <div key={i} className={`relative group overflow-hidden rounded-sm ${img.span}`}>
                 <ThreeDTiltCard intensity={10} className="w-full h-full">
                   <div className="w-full h-full relative overflow-hidden border border-white/5 group-hover:border-amber-500/50 transition-colors duration-500">
-                    <img
+                    <OptimizedImage
                       src={img.src}
                       alt={img.alt}
                       className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 filter grayscale group-hover:grayscale-0"
