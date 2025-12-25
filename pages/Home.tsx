@@ -135,7 +135,13 @@ const Home: React.FC = () => {
             muted
             loop
             playsInline
+            controls={false}
             className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none brightness-75 contrast-125"
+            onLoadedMetadata={(e) => {
+              (e.target as HTMLVideoElement).play().catch(err => {
+                console.warn("Video failed to auto-play:", err);
+              });
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-brand-black transform-gpu" />
         </motion.div>

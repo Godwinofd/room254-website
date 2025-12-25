@@ -11,10 +11,14 @@ interface OptimizedImageProps {
 const OptimizedImage: React.FC<OptimizedImageProps> = ({ src, alt, className = "", priority = false }) => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isInView, setIsInView] = useState(priority);
+    const [error, setError] = useState(false);
     const imgRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (priority) return;
+        if (priority) {
+            setIsInView(true);
+            return;
+        }
 
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -23,7 +27,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({ src, alt, className = "
                     observer.disconnect();
                 }
             },
-            { rootMargin: '200px' } // Start loading 200px before it enters viewport
+            { rootMargin: '800px' } // Load much earlier
         );
 
         if (imgRef.current) {
@@ -33,24 +37,33 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({ src, alt, className = "
         return () => observer.disconnect();
     }, [priority]);
 
+    if (error) {
+        return (
+            <div className={`bg-zinc-900 border border-white/5 flex items-center justify-center p-4 ${className}`}>
+                <span className="text-[10px] text-gray-700 uppercase tracking-widest font-bold">Media Unavailable</span>
+            </div>
+        );
+    }
+
     return (
-        <div ref={imgRef} className={`relative overflow-hidden bg-white/5 ${className}`}>
+        <div ref={imgRef} className={`relative overflow-hidden bg-brand-black/50 ${className}`}>
             {isInView && (
                 <>
                     <img
                         src={src}
                         alt={alt}
                         onLoad={() => setIsLoaded(true)}
-                        className={`w-full h-full object-cover transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'
+                        onError={() => setError(true)}
+                        className={`w-full h-full object-cover transition-opacity duration-1000 will-change-opacity ${isLoaded ? 'opacity-100' : 'opacity-0'
                             }`}
                         loading={priority ? "eager" : "lazy"}
                     />
                     <AnimatePresence>
-                        {!isLoaded && (
+                        {!isLoaded && !error && (
                             <motion.div
                                 initial={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
-                                className="absolute inset-0 bg-white/5 animate-pulse"
+                                className="absolute inset-0 bg-brand-black/50 backdrop-blur-sm animate-pulse"
                             />
                         )}
                     </AnimatePresence>

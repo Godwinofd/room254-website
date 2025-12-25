@@ -104,7 +104,7 @@ const Navbar: React.FC = () => {
         {/* Mobile Toggle */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-white z-[60] relative focus:outline-none w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/10"
+          className="md:hidden text-white z-[100] relative focus:outline-none w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/10"
           aria-label="Toggle Menu"
         >
           <AnimatePresence mode="wait">
@@ -136,18 +136,18 @@ const Navbar: React.FC = () => {
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center md:hidden"
+              initial={{ y: "-100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "-100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              className="fixed inset-0 bg-black z-[90] flex flex-col items-center justify-start pt-32 pb-12 md:hidden overflow-y-auto"
             >
               {/* Background Accents */}
+              <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
               <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 blur-[150px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-accent/5 blur-[150px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
               <div className="flex flex-col gap-6 text-center w-full px-12 z-10">
-                <div className="mb-8">
+                <div className="mb-4">
                   <Logo className="h-16 w-auto mx-auto text-amber-500" />
                   <div className="h-px w-24 bg-gradient-to-r from-transparent via-amber-500/50 to-transparent mx-auto mt-4" />
                 </div>
@@ -155,14 +155,14 @@ const Navbar: React.FC = () => {
                 {[{ name: 'Home', path: '/' }, ...navLinks].map((item, index) => (
                   <motion.div
                     key={item.name}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 10 }}
-                    transition={{ delay: index * 0.05 + 0.2, duration: 0.4 }}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ delay: index * 0.05 + 0.1, duration: 0.4 }}
                   >
                     <Link
                       to={item.path}
-                      className={`relative group inline-block text-4xl font-display font-bold uppercase transition-colors tracking-tighter ${location.pathname === item.path ? 'text-amber-500' : 'text-white'
+                      className={`relative group inline-block text-3xl font-display font-bold uppercase transition-colors tracking-tighter ${location.pathname === item.path ? 'text-amber-500' : 'text-white'
                         }`}
                     >
                       {item.name}
@@ -177,21 +177,21 @@ const Navbar: React.FC = () => {
                 ))}
 
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ delay: 0.5, duration: 0.4 }}
-                  className="mt-12"
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ delay: 0.4, duration: 0.4 }}
+                  className="mt-8"
                 >
                   <Link
                     to="/events"
-                    className="block px-10 py-5 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold uppercase tracking-[0.2em] text-sm shadow-2xl shadow-orange-500/20 active:scale-95 transition-transform"
+                    className="block px-10 py-5 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold uppercase tracking-[0.2em] text-xs shadow-2xl shadow-orange-500/20 active:scale-95 transition-transform"
                   >
                     Explore Events
                   </Link>
                 </motion.div>
 
-                <div className="mt-16 flex justify-center gap-8 opacity-50">
+                <div className="mt-12 flex justify-center gap-8 opacity-50 pb-8">
                   {[Instagram, Facebook, Twitter].map((Icon, i) => (
                     <a key={i} href="#" className="text-white hover:text-amber-500 transition-colors">
                       <Icon size={20} />
