@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Music, Users, MapPin, ArrowUpRight, Mail } from 'lucide-react';
 import OptimizedImage from '../components/OptimizedImage';
@@ -68,6 +68,15 @@ const ExpertiseCard: React.FC<{ item: ExpertiseItem; index: number }> = ({ item,
 const Home: React.FC = () => {
   const { scrollY } = useScroll();
   const backgroundY = useTransform(scrollY, [0, 1000], [0, 400]);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(err => {
+        console.warn("Autoplay was blocked:", err);
+      });
+    }
+  }, []);
 
   const expertiseItems: ExpertiseItem[] = [
     {
@@ -130,6 +139,7 @@ const Home: React.FC = () => {
           className="absolute inset-0 z-0 will-change-transform"
         >
           <video
+            ref={videoRef}
             src="/videos/newhero.mp4"
             autoPlay
             muted
@@ -137,11 +147,6 @@ const Home: React.FC = () => {
             playsInline
             controls={false}
             className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none brightness-75 contrast-125"
-            onLoadedMetadata={(e) => {
-              (e.target as HTMLVideoElement).play().catch(err => {
-                console.warn("Video failed to auto-play:", err);
-              });
-            }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-brand-black transform-gpu" />
         </motion.div>

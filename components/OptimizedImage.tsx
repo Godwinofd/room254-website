@@ -27,14 +27,22 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({ src, alt, className = "
                     observer.disconnect();
                 }
             },
-            { rootMargin: '800px' } // Load much earlier
+            { rootMargin: '2000px' } // Extreme pre-loading
         );
 
         if (imgRef.current) {
             observer.observe(imgRef.current);
         }
 
-        return () => observer.disconnect();
+        // Safety timeout: If image doesn't load in 3 seconds, try to show it anyway
+        const safetyTimeout = setTimeout(() => {
+            setIsInView(true);
+        }, 3000);
+
+        return () => {
+            observer.disconnect();
+            clearTimeout(safetyTimeout);
+        };
     }, [priority]);
 
     if (error) {

@@ -101,36 +101,16 @@ const Navbar: React.FC = () => {
           </Link>
         </div>
 
-        {/* Mobile Toggle */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-white z-[100] relative focus:outline-none w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/10"
-          aria-label="Toggle Menu"
-        >
-          <AnimatePresence mode="wait">
-            {isOpen ? (
-              <motion.div
-                key="close"
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <X size={24} className="text-amber-500" />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="menu"
-                initial={{ rotate: 90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: -90, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Menu size={24} />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </button>
+        {/* Mobile Toggle Button (Only show when menu is CLOSED) */}
+        {!isOpen && (
+          <button
+            onClick={() => setIsOpen(true)}
+            className="md:hidden text-white z-50 relative focus:outline-none w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10"
+            aria-label="Open Menu"
+          >
+            <Menu size={24} />
+          </button>
+        )}
 
         {/* Mobile Menu Overlay */}
         <AnimatePresence>
