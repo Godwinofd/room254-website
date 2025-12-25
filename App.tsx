@@ -104,7 +104,7 @@ const Navbar: React.FC = () => {
         {/* Mobile Toggle */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-white z-50 relative focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
+          className="md:hidden text-white z-[60] relative focus:outline-none w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/10"
           aria-label="Toggle Menu"
         >
           <AnimatePresence mode="wait">
@@ -116,7 +116,7 @@ const Navbar: React.FC = () => {
                 exit={{ rotate: 90, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <X size={24} />
+                <X size={24} className="text-amber-500" />
               </motion.div>
             ) : (
               <motion.div
@@ -136,42 +136,68 @@ const Navbar: React.FC = () => {
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, clipPath: "circle(0% at 100% 0%)" }}
-              animate={{ opacity: 1, clipPath: "circle(150% at 100% 0%)" }}
-              exit={{ opacity: 0, clipPath: "circle(0% at 100% 0%)" }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="fixed inset-0 bg-black/95 backdrop-blur-xl z-40 flex flex-col justify-center items-center md:hidden"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center md:hidden"
             >
-              <div className="flex flex-col gap-8 text-center p-6">
+              {/* Background Accents */}
+              <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 blur-[150px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-accent/5 blur-[150px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+
+              <div className="flex flex-col gap-6 text-center w-full px-12 z-10">
+                <div className="mb-8">
+                  <Logo className="h-16 w-auto mx-auto text-amber-500" />
+                  <div className="h-px w-24 bg-gradient-to-r from-transparent via-amber-500/50 to-transparent mx-auto mt-4" />
+                </div>
+
                 {[{ name: 'Home', path: '/' }, ...navLinks].map((item, index) => (
                   <motion.div
                     key={item.name}
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ delay: index * 0.1, duration: 0.5 }}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 10 }}
+                    transition={{ delay: index * 0.05 + 0.2, duration: 0.4 }}
                   >
                     <Link
                       to={item.path}
-                      className={`text-4xl sm:text-5xl font-display font-bold uppercase transition-colors duration-300 ${location.pathname === item.path ? 'text-amber-500' : 'text-white hover:text-gray-400'
+                      className={`relative group inline-block text-4xl font-display font-bold uppercase transition-colors tracking-tighter ${location.pathname === item.path ? 'text-amber-500' : 'text-white'
                         }`}
                     >
                       {item.name}
+                      {location.pathname === item.path && (
+                        <motion.div
+                          layoutId="mobile-indicator"
+                          className="absolute -left-6 top-1/2 -translate-y-1/2 w-2 h-2 bg-amber-500 rounded-full"
+                        />
+                      )}
                     </Link>
                   </motion.div>
                 ))}
 
                 <motion.div
-                  initial={{ opacity: 0, y: 50 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ delay: 0.5, duration: 0.5 }}
-                  className="mt-8"
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ delay: 0.5, duration: 0.4 }}
+                  className="mt-12"
                 >
-                  <Link to="/events" className="px-10 py-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold uppercase tracking-widest hover:brightness-110 transition-colors duration-300 text-lg shadow-lg shadow-orange-500/20">
-                    Get Tickets
+                  <Link
+                    to="/events"
+                    className="block px-10 py-5 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold uppercase tracking-[0.2em] text-sm shadow-2xl shadow-orange-500/20 active:scale-95 transition-transform"
+                  >
+                    Explore Events
                   </Link>
                 </motion.div>
+
+                <div className="mt-16 flex justify-center gap-8 opacity-50">
+                  {[Instagram, Facebook, Twitter].map((Icon, i) => (
+                    <a key={i} href="#" className="text-white hover:text-amber-500 transition-colors">
+                      <Icon size={20} />
+                    </a>
+                  ))}
+                </div>
               </div>
             </motion.div>
           )}
